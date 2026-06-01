@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Guichê de Atendimento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="guiche-container">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Selecionar Guichê</ion-card-title>
+        <ion-card-subtitle>
+          Escolha o guichê que está realizando o atendimento
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-item>
+          <ion-label>Guichê</ion-label>
+
+          <ion-select
+            [(ngModel)]="guicheSelecionadoId"
+            placeholder="Selecione"
+            interface="popover"
+            (ionChange)="selecionarGuiche($event.detail.value)">
+
+            <ion-select-option
+              *ngFor="let guiche of guiches"
+              [value]="guiche.id">
+              {{ guiche.nome }}
+            </ion-select-option>
+
+          </ion-select>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="guicheSelecionadoId">
+      <ion-card-header>
+        <ion-card-title>Controle de Atendimento</ion-card-title>
+        <ion-card-subtitle>
+          Chame e gerencie a senha atual
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-button
+          expand="block"
+          size="large"
+          color="primary"
+          [disabled]="!!ticketAtual"
+          (click)="chamarProximaSenha()">
+          Chamar Próxima Senha
+        </ion-button>
+
+        <div *ngIf="ticketAtual" class="senha-atual">
+
+          <p class="label">Senha em Atendimento</p>
+
+          <div class="numero-senha">
+            {{ ticketAtual.numero }}
+          </div>
+
+          <ion-chip [color]="obterCorTipo(ticketAtual.tipo)">
+            <ion-label>
+              {{ obterNomeTipo(ticketAtual.tipo) }}
+            </ion-label>
+          </ion-chip>
+
+          <p class="status">
+            Status:
+            <strong>{{ ticketAtual.status }}</strong>
+          </p>
+
+          <div class="botoes-atendimento">
+
+            <ion-button
+              expand="block"
+              size="large"
+              color="success"
+              (click)="finalizarAtendimento()">
+              Finalizar Atendimento
+            </ion-button>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="!ticketAtual" class="sem-senha">
+          <p>Nenhuma senha em atendimento neste guichê.</p>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Painel de Chamadas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="atualizarManual($event)">
+    <ion-refresher-content
+      pullingText="Puxe para atualizar"
+      refreshingText="Atualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="painel-container">
+
+    <ion-card *ngIf="carregando">
+      <ion-card-content class="ion-text-center">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Carregando painel...</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="erro && !carregando" color="danger">
+      <ion-card-content>
+        {{ erro }}
+      </ion-card-content>
+    </ion-card>
+
+    <ng-container *ngIf="!carregando">
+
+      <ion-card *ngIf="chamadaAtual" class="senha-destaque">
+        <ion-card-header>
+          <ion-card-subtitle>Senha chamada</ion-card-subtitle>
+          <ion-card-title>{{ chamadaAtual.numero }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="guiche-destaque">
+            {{ chamadaAtual.guiche_nome || 'Guichê não informado' }}
+          </div>
+
+          <ion-chip [color]="obterCorTipo(chamadaAtual.tipo)">
+            <ion-label>{{ obterNomeTipo(chamadaAtual.tipo) }}</ion-label>
+          </ion-chip>
+
+          <div class="horario-destaque">
+            Chamada às {{ formatarHorario(chamadaAtual.data_chamada) }}
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngIf="!chamadaAtual">
+        <ion-card-content class="ion-text-center">
+          Nenhuma senha chamada hoje.
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card *ngIf="chamadas.length > 1">
+        <ion-card-header>
+          <ion-card-title>Últimas Chamadas</ion-card-title>
+        </ion-card-header>
+
+        <ion-list>
+          <ion-item *ngFor="let chamada of chamadas.slice(1)">
+            <ion-label>
+              <h2>{{ chamada.numero }}</h2>
+              <p>
+                {{ obterNomeTipo(chamada.tipo) }} -
+                {{ chamada.guiche_nome || 'Guichê não informado' }}
+              </p>
+              <p>
+                {{ formatarHorario(chamada.data_chamada) }}
+              </p>
+            </ion-label>
+
+            <ion-badge [color]="obterCorTipo(chamada.tipo)" slot="end">
+              {{ chamada.tipo }}
+            </ion-badge>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
+    </ng-container>
+
+  </div>
+
+</ion-content>

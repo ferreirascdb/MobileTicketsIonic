@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Totem de Atendimento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="totem-container">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Retire sua senha</ion-card-title>
+        <ion-card-subtitle>
+          Escolha o tipo de atendimento desejado
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-button
+          expand="block"
+          size="large"
+          color="danger"
+          (click)="emitirSenha('SP')">
+          Senha Prioritária
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          size="large"
+          color="primary"
+          (click)="emitirSenha('SG')">
+          Senha Geral
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          size="large"
+          color="success"
+          (click)="emitirSenha('SE')">
+          Retirada de Exames
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="ultimoTicket">
+      <ion-card-header>
+        <ion-card-title>Última senha emitida</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="senha-box">
+          {{ ultimoTicket.numero }}
+        </div>
+
+        <p>
+          Tipo:
+          <strong>{{ ultimoTicket.tipo }}</strong>
+        </p>
+
+        <p>
+          Status:
+          <strong>{{ ultimoTicket.status }}</strong>
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>
