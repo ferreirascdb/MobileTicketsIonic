@@ -6,6 +6,8 @@ require('dotenv').config({ path: '../.env' });
 const ticketRoutes = require('./routes/ticketRoutes');
 const guicheRoutes = require('./routes/guicheRoutes');
 const painelRoutes = require('./routes/painelRoutes');
+const relatoriosRoutes = require('./routes/ralatotoriosRoutes')
+
 
 const app =express();
 app.use(cors());
@@ -14,6 +16,7 @@ app.use(express.json());
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/guiches', guicheRoutes);
 app.use('/api/painel', painelRoutes);
+app.use('/api/relatorios', relatoriosRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({
